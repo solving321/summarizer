@@ -125,7 +125,7 @@
             resultDiv.style.display = "none";
 
             try {
-                const response = await fetch('https://summarizer-production-c9ab.up.railway.app:8080/attach_document', {
+                const response = await fetch('https://summarizer-production-c9ab.up.railway.app/attach_document', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ url: link })
