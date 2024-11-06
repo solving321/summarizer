@@ -58,7 +58,7 @@
             text-align: left;
             font-size: 14px;
             color: #555;
-            display: none; /* Hide initially */
+            display: none;
         }
         .result h2 {
             font-size: 20px;
@@ -66,7 +66,7 @@
             margin-bottom: 10px;
         }
         .text-content {
-            max-height: 100px; /* Limit the height for preview */
+            max-height: 100px;
             overflow-y: auto;
             position: relative;
             transition: max-height 0.3s ease-in-out;
@@ -82,7 +82,6 @@
             font-weight: bold;
         }
 
-        /* Loading Spinner Styles */
         .loading {
             border: 5px solid #f3f3f3;
             border-top: 5px solid #4a90e2;
@@ -97,10 +96,26 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        .info-box {
+            background-color: #87CEEB;
+            color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            display: none;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Cute Info Box -->
+        <div id="infoBox" class="info-box">
+            <strong>Note:</strong> If there's any issue, try clicking "Summarize" again. If the service is sleeping, click button to wake it up!
+        </div>
+
         <h1>Summarizer</h1>
         <form id="linkForm">
             <label for="linkInput">Enter a Link:</label>
@@ -108,13 +123,19 @@
             <button type="submit">Summarize</button>
         </form>
         <div class="result" id="result">
-            <!-- Result will be injected here after the API response -->
         </div>
-        <!-- Loading Spinner initially visible -->
         <div id="loading" class="loading" style="display:none;"></div>
     </div>
 
     <script>
+        window.onload = function() {
+            const infoBox = document.getElementById("infoBox");
+            infoBox.style.display = "block";
+            setTimeout(() => {
+                infoBox.style.display = "none";
+            }, 3000);
+        };
+
         document.getElementById("linkForm").addEventListener("submit", async (event) => {
             event.preventDefault();
             const link = document.getElementById("linkInput").value;
