@@ -5,7 +5,7 @@ require('dotenv').config();
 
 const app = express();
 app.use(cors({
-    origin: 'https://summarizer-production-c9ab.up.railway.app:8080',
+    origin: '*',
     methods: ['POST'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -27,8 +27,6 @@ app.post('/attach_document', async (req, res) => {
       },
     });
 
-    console.log(response.data);
-
     res.json(response.data);
   } catch (error) {
     console.error("Error details:", error.response || error);
@@ -42,4 +40,5 @@ app.post('/attach_document', async (req, res) => {
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
+  console.log(END_POINT);
 });
