@@ -18,6 +18,7 @@ app.use(express.static('public'));
 app.post('/attach_document', async (req, res) => {
   try {
     const { url } = req.body;
+    console.log('Received URL:', url);
 
     const response = await axios.post(END_POINT, {
       fileUrl: url
