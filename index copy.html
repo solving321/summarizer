@@ -58,7 +58,6 @@
             text-align: left;
             font-size: 14px;
             color: #555;
-            display: none; /* Hide initially */
         }
         .result h2 {
             font-size: 20px;
@@ -81,22 +80,6 @@
             color: #d9534f;
             font-weight: bold;
         }
-
-        /* Loading Spinner Styles */
-        .loading {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #4a90e2;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 2s linear infinite;
-            margin: 0 auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
     </style>
 </head>
 <body>
@@ -107,11 +90,7 @@
             <input type="url" id="linkInput" placeholder="https://example.com" required>
             <button type="submit">Summarize</button>
         </form>
-        <div class="result" id="result">
-            <!-- Result will be injected here after the API response -->
-        </div>
-        <!-- Loading Spinner initially visible -->
-        <div id="loading" class="loading" style="display:none;"></div>
+        <div class="result" id="result"></div>
     </div>
 
     <script>
@@ -119,10 +98,6 @@
             event.preventDefault();
             const link = document.getElementById("linkInput").value;
             const resultDiv = document.getElementById("result");
-            const loadingDiv = document.getElementById("loading");
-
-            loadingDiv.style.display = "block";
-            resultDiv.style.display = "none";
 
             try {
                 const response = await fetch('http://127.0.0.1:3000/attach_document', {
@@ -132,11 +107,8 @@
                 });
 
                 const data = await response.json();
-
-                loadingDiv.style.display = "none";
-                resultDiv.style.display = "block";
                 resultDiv.innerHTML = `
-                    <h2>AI Summarizing ${link}</h2>
+                    <h2>Summarizing ${link}</h2>
                     <p><strong>Type:</strong> ${data.type}</p>
                     <p><strong>URL:</strong> ${data.url}</p>
                     <p><strong>Name:</strong> ${data.name}</p>
@@ -146,9 +118,6 @@
                     <span class="show-more" onclick="toggleText()">Read More</span>
                 `;
             } catch (error) {
-                // Hide the loading spinner and show error message
-                loadingDiv.style.display = "none";
-                resultDiv.style.display = "block";
                 resultDiv.innerHTML = `<p class="error">Failed to fetch link info: ${error.message}</p>`;
             }
         });
