@@ -5,11 +5,11 @@ require('dotenv').config();
 
 const app = express();
 app.use(cors({
-    origin: 'http://127.0.0.1:5500',
+    origin: 'https://summarizer-production-c9ab.up.railway.app:8080',
     methods: ['POST'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 const END_POINT = process.env.END_POINT;
 
 app.use(express.json());
