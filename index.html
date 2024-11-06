@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Information Fetcher</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .result { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Link Information Fetcher</h1>
+    <form id="linkForm">
+        <label for="linkInput">Enter a Link:</label>
+        <input type="url" id="linkInput" required>
+        <button type="submit">Fetch Info</button>
+    </form>
+    <div class="result" id="result"></div>
+
+    <script>
+        document.getElementById("linkForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const link = document.getElementById("linkInput").value;
+            const resultDiv = document.getElementById("result");
+
+            try {
+                const response = await fetch('/api/fetchLinkInfo', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fileUrl: link })
+                });
+
+                const data = await response.json();
+
+                resultDiv.innerHTML = `
+                    <h2>Link Information</h2>
+                    <p><strong>Type:</strong> ${data.type}</p>
+                    <p><strong>URL:</strong> ${data.url}</p>
+                    <p><strong>Name:</strong> ${data.name}</p>
+                    <p><strong>Text:</strong> ${data.text}</p>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `<p style="color: red;">Failed to fetch link info: ${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
